@@ -35,13 +35,13 @@ A Python-based web application. This tool allows users to track daily expenses, 
     1.  Open your terminal in the project directory.
 
     2.  Build the Docker Image: (bash)
-        docker build -t expense-tracker .
+        $ docker build -t expense-tracker .
     
     3.  Run the Container: (bash)
-        docker run -p 5000:5000 expense-tracker
+        $ docker run -p 5000:5000 expense-tracker
 
     4.  Access the Application:
-        Open your web browser and go to: http://localhost:5000
+        $ Open your web browser and go to: http://localhost:5000
 
 
 **How to Run (Manually)**
@@ -49,13 +49,13 @@ A Python-based web application. This tool allows users to track daily expenses, 
     If you want to run manually, follow these steps:
 
     1.  Install Dependencies: (bash)
-        pip install -r requirements.txt
+        $ pip install -r requirements.txt
     
     2.  Start the Application: (bash)
-        python app.py
+        $ python app.py
     
     3.  Access the Application:
-        Navigate to http://localhost:5000 in your browser.
+        $ Navigate to http://localhost:5000 in your browser.
 
 
 
@@ -82,6 +82,7 @@ A Python-based web application. This tool allows users to track daily expenses, 
         Status shows "On Track".
 
     Test Case 3: Log an Expense (Trigger Alert)
+    
     1.  Log another expense for Food.
     2.  Input Cost: 1600 (Note: This exceeds the remaining balance of $1500).
     3.  Click "Save Expense".
@@ -102,3 +103,4 @@ A Python-based web application. This tool allows users to track daily expenses, 
 
 
     
+
