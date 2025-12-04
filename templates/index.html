@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Personal Finance Tracker</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 30px; background-color: #f9f9f9; }
+        h1, h3 { color: #333; }
+        .container { display: flex; gap: 40px; margin-bottom: 30px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 45%; }
+        input, select, button { display: block; width: 100%; margin-bottom: 10px; padding: 8px; box-sizing: border-box; }
+        button { background-color: #ff5722; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #6c5d51ef; }
+        
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f1f1f1; }
+        
+        .msg-box { padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        .danger { background-color: #ffcccc; color: #a00; border: 1px solid #f00; }
+        .success { background-color: #ccffcc; color: #060; border: 1px solid #0a0; }
+        .text-red { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>Budget & Expense Manager</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="msg-box {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <div class="card">
+            <h3>Add New Category</h3>
+            <form action="/create-category" method="POST">
+                <label>Category Name</label>
+                <input type="text" name="category_name" placeholder="e.g. Travel" required>
+                
+                <label>Monthly Budget Limit</label>
+                <input type="number" name="budget_limit" placeholder="Amount (e.g. 5000)" required>
+                
+                <button type="submit">Set Budget</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>Log Daily Expense</h3>
+            <form action="/log-expense" method="POST">
+                <label>Select Category</label>
+                <select name="category_select">
+                    {% for c in categories %}
+                        <option value="{{ c.id }}">{{ c.title }}</option>
+                    {% endfor %}
+                </select>
+                
+                <label>Cost</label>
+                <input type="number" name="expense_cost" placeholder="Amount Spent" required>
+                
+                <label>Description</label>
+                <input type="text" name="expense_reason" placeholder="What did you buy?">
+                
+                <button type="submit">Save Expense</button>
+            </form>
+        </div>
+    </div>
+
+    <h3>Financial Summary</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Monthly Limit</th>
+                <th>Total Spent</th>
+                <th>Balance</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in summary %}
+            <tr>
+                <td>{{ row.title }}</td>
+                <td>${{ row.limit }}</td>
+                <td>${{ row.spent }}</td>
+                <td>${{ row.balance }}</td>
+                <td>
+                    {% if row.alert_status %}
+                        <span class="text-red">OVER BUDGET!</span>
+                    {% else %}
+                        <span style="color: green;">On Track</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
