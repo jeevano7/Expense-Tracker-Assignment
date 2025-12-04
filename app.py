@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from models import db, Category, Expense
 
-
 app = Flask(__name__)
 app.secret_key = 'unique_secret_key_123'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///expense_tracker.db'
@@ -14,13 +13,10 @@ with app.app_context():
 
 @app.route('/')
 def dashboard():
-
     categories = Category.query.all()
-    
     summary_report = []
     
     for cat in categories:
-        
         current_spent = sum([item.cost for item in cat.expense_list])
         balance = cat.monthly_limit - current_spent
         
@@ -29,14 +25,13 @@ def dashboard():
             'limit': cat.monthly_limit,
             'spent': current_spent,
             'balance': balance,
-            'alert_status': current_spent > cat.monthly_limit 
+            'alert_status': current_spent > cat.monthly_limit
         })
 
     return render_template('index.html', summary=summary_report, categories=categories)
 
 @app.route('/create-category', methods=['POST'])
 def create_category():
-    
     name_input = request.form.get('category_name')
     limit_input = float(request.form.get('budget_limit'))
     
@@ -48,7 +43,6 @@ def create_category():
 
 @app.route('/log-expense', methods=['POST'])
 def log_expense():
-
     cost_input = float(request.form.get('expense_cost'))
     reason_input = request.form.get('expense_reason')
     cat_id_input = int(request.form.get('category_select'))
@@ -59,9 +53,12 @@ def log_expense():
     
     cat_check = Category.query.get(cat_id_input)
     total_spent = sum([x.cost for x in cat_check.expense_list])
+    limit = cat_check.monthly_limit
     
-    if total_spent > cat_check.monthly_limit:
-        flash(f"Alert! You crossed your monthly limit for {cat_check.title}!", "danger")
+    if total_spent > limit:
+        flash(f"CRITICAL: You have exceeded the budget for {cat_check.title}!", "danger")
+    elif total_spent >= (limit * 0.9):
+        flash(f"Watch out! Less than 10% budget remaining for {cat_check.title}.", "warning")
     else:
         flash("Expense saved successfully.", "success")
         
