@@ -61,7 +61,7 @@ A Python-based web application. This tool allows users to track daily expenses, 
 
 **Test Steps (Validation)**
 
-    Test Case 1: Create a Category & Budget
+    **Test Case 1: Create a Category & Budget**
 
     1.  Navigate to "Add New Category" section on the dashboard.
     2.  Input Name: Food
@@ -69,7 +69,7 @@ A Python-based web application. This tool allows users to track daily expenses, 
     4.  Click "Set Budget".
     5.  Validation: Verify that Food appears in the "Financial Summary" table at the bottom with a Limit of $2000 and Balance of $2000.
 
-    Test Case 2: Log an Expense (Normal)
+    **Test Case 2: Log an Expense (Normal)**
 
     1.  Navigate to "Log Daily Expense" section.
     2.  Select Category: Food
@@ -81,7 +81,7 @@ A Python-based web application. This tool allows users to track daily expenses, 
         The Summary Table updates: Spent becomes $500, Balance becomes $1500.
         Status shows "On Track".
 
-    Test Case 3: Log an Expense (Trigger Alert)
+    **Test Case 3: Log an Expense (Trigger Alert)**
     1.  Log another expense for Food.
     2.  Input Cost: 1600 (Note: This exceeds the remaining balance of $1500).
     3.  Click "Save Expense".
